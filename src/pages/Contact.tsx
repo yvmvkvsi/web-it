@@ -1,16 +1,10 @@
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { contact } from "../content/pages";
 import ContactForm from "../components/ContactForm";
 import PendingNote from "../components/PendingNote";
 
 export default function Contact() {
   const locale = useLocale();
-
-  useSeo({
-    title: contact.meta.title[locale],
-    description: contact.meta.description[locale],
-  });
 
   return (
     <section className="section-tight">

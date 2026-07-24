@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
 import { routePath } from "../config/routes";
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { notFound } from "../content/pages";
 import { ui } from "../content/ui";
 
 export default function NotFound() {
   const locale = useLocale();
-
-  useSeo({
-    title: notFound.meta.title[locale],
-    description: notFound.meta.description[locale],
-    noIndex: true,
-  });
 
   return (
     <section className="section">

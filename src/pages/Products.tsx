@@ -1,16 +1,10 @@
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { products } from "../content/pages";
 import FamilyGrid from "../components/FamilyGrid";
 import PendingNote from "../components/PendingNote";
 
 export default function Products() {
   const locale = useLocale();
-
-  useSeo({
-    title: products.meta.title[locale],
-    description: products.meta.description[locale],
-  });
 
   return (
     <>

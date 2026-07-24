@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { routePath } from "../config/routes";
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { testlab } from "../content/pages";
 import { sizes } from "../content/media";
 import { ui } from "../content/ui";
@@ -10,11 +9,6 @@ import PendingNote from "../components/PendingNote";
 
 export default function TestLab() {
   const locale = useLocale();
-
-  useSeo({
-    title: testlab.meta.title[locale],
-    description: testlab.meta.description[locale],
-  });
 
   return (
     <>

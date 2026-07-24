@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { routePath } from "../config/routes";
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { heroPlant, sizes, testlabFilmSample } from "../content/media";
 import { home } from "../content/pages";
 import { ui } from "../content/ui";
@@ -10,11 +9,6 @@ import Media from "../components/Media";
 
 export default function Home() {
   const locale = useLocale();
-
-  useSeo({
-    title: home.meta.title[locale],
-    description: home.meta.description[locale],
-  });
 
   return (
     <>

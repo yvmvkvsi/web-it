@@ -11,10 +11,12 @@
          browser requesting /favicon.ico and 404-ing on every page. Replace the
          href with the real icon when P-001 closes. -->
     <link rel="icon" href="data:," />
-    <!-- Per-route metadata is written by src/lib/seo.ts on navigation. The
-         values below are the pre-hydration defaults only. `noindex` is the
-         default here too, so a crawler that reads the shell before the app
-         runs still gets the fail-closed answer. -->
+    <title>Damon — Materie prime per la trasformazione delle materie plastiche</title>
+    <!--app-head-->
+    <!-- Pre-hydration defaults, replaced per route by scripts/prerender.ts and
+         by src/lib/seo.ts on client-side navigation. `noindex` is the default
+         here too, so a crawler reading the shell before either has run still
+         gets the fail-closed answer. -->
     <meta
       name="description"
       content="Distribuzione di materie prime per trasformatori di materie plastiche: masterbatch, polimeri, bio-polimeri, additivi, compound e rigenerati."
@@ -22,10 +24,10 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Damon" />
-    <title>Damon — Materie prime per la trasformazione delle materie plastiche</title>
+    <!--/app-head-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

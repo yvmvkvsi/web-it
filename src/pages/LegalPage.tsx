@@ -1,5 +1,4 @@
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import type { PageMeta } from "../content/pages";
 import type { Locale } from "../config/locales";
 import PendingNote from "../components/PendingNote";
@@ -21,11 +20,6 @@ export interface LegalContent {
 /** Shared layout for the privacy and cookie notices. */
 export default function LegalPage({ content }: { content: LegalContent }) {
   const locale = useLocale();
-
-  useSeo({
-    title: content.meta.title[locale],
-    description: content.meta.description[locale],
-  });
 
   return (
     <section className="section-tight">

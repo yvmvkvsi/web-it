@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { getRoute, routePath } from "../config/routes";
 import { useLocale } from "../lib/locale";
-import { useSeo } from "../lib/seo";
 import { getProductFamily, type ProductRouteId } from "../content/products";
 import { productDetail } from "../content/pages";
 import { sizes } from "../content/media";
 import { ui } from "../content/ui";
-import { siteConfig } from "../config/site";
 import FamilyRail from "../components/FamilyRail";
 import Media from "../components/Media";
 import PendingNote from "../components/PendingNote";
@@ -24,10 +22,6 @@ export default function ProductCategory({ routeId }: ProductCategoryProps) {
   const family = getProductFamily(routeId);
   const name = getRoute(routeId).labels[locale];
 
-  useSeo({
-    title: `${name} — ${siteConfig.name}`,
-    description: family.summary[locale],
-  });
 
   return (
     <>

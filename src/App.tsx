@@ -6,23 +6,31 @@ import {
 } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import { routeRegistry, type PublishedRouteId } from "./config/routes";
+import PageShell from "./pages/PageShell";
+import {
+  localisePath,
+  routeRegistry,
+  type RouteId,
+} from "./config/routes";
+import { locales } from "./config/locales";
 
-const publishedPages = {
+/**
+ * Routes with a real implementation. Everything else published renders the
+ * neutral shell until its content is approved.
+ */
+const implementedPages: Partial<
+  Record<RouteId, LazyExoticComponent<ComponentType>>
+> = {
   home: lazy(() => import("./pages/Home")),
-  about: lazy(() => import("./pages/About")),
-  work: lazy(() => import("./pages/Work")),
-  "work-item": lazy(() => import("./pages/WorkItem")),
-  contact: lazy(() => import("./pages/Contact")),
-  privacy: lazy(() => import("./pages/Privacy")),
-} satisfies Record<PublishedRouteId, LazyExoticComponent<ComponentType>>;
+  contatti: lazy(() => import("./pages/Contact")),
+};
 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function RouteFallback() {
   return (
     <div className="shell route-status" role="status" aria-live="polite">
-      Loading page…
+      Loading…
     </div>
   );
 }
@@ -32,14 +40,34 @@ export default function App() {
     <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route element={<Layout />}>
-          {routeRegistry.map((route) => {
-            if (route.id === "not-found" || !route.published) {
-              return <Route key={route.id} path={route.path} element={<NotFound />} />;
-            }
+          {locales.flatMap((locale) =>
+            routeRegistry.map((route) => {
+              const path =
+                route.paths[locale] === "*"
+                  ? "*"
+                  : localisePath(locale, route.paths[locale]);
+              const key = `${locale}:${route.id}`;
 
-            const Page = publishedPages[route.id];
-            return <Route key={route.id} path={route.path} element={<Page />} />;
-          })}
+              if (route.id === "not-found" || !route.published) {
+                return <Route key={key} path={path} element={<NotFound />} />;
+              }
+
+              const Implemented = implementedPages[route.id];
+              return (
+                <Route
+                  key={key}
+                  path={path}
+                  element={
+                    Implemented ? (
+                      <Implemented />
+                    ) : (
+                      <PageShell routeId={route.id} />
+                    )
+                  }
+                />
+              );
+            }),
+          )}
         </Route>
       </Routes>
     </Suspense>

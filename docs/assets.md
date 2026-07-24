@@ -116,34 +116,54 @@ Assets are graded to sit inside the site palette, not fought against it.
 Priority 1 assets block launch. Priority 2 improves the page but a section can
 ship without it.
 
-| Slug | Group | Used on | Ratio | Master size | Priority |
-|---|---|---|---|---|---|
-| `plant-hero` | hero | homepage, above the fold | 16:9 | 2560×1440 | 1 |
-| `masterbatch` | products | `/prodotti/masterbatch/` | 4:3 | 1600×1200 | 1 |
-| `polimeri` | products | `/prodotti/polimeri/` | 4:3 | 1600×1200 | 1 |
-| `biopolimeri` | products | `/prodotti/biopolimeri/` | 4:3 | 1600×1200 | 1 |
-| `additivi` | products | `/prodotti/additivi/` | 4:3 | 1600×1200 | 1 |
-| `compound` | products | `/prodotti/compound/` | 4:3 | 1600×1200 | 1 |
-| `rigenerati` | products | `/prodotti/rigenerati/` | 4:3 | 1600×1200 | 1 |
-| `testlab-extrusion` | testlab | `/testlab/` header | 3:2 | 2400×1600 | 1 |
-| `testlab-film-sample` | testlab | `/testlab/` body | 3:2 | 1600×1067 | 2 |
-| `industry-packaging` | industries | `/settori/` | 4:3 | 1600×1200 | 2 |
-| `industry-injection` | industries | `/settori/` | 4:3 | 1600×1200 | 2 |
-| `industry-agriculture` | industries | `/settori/` | 4:3 | 1600×1200 | 2 |
-| `warehouse` | company | `/azienda/` | 3:2 | 2400×1600 | 2 |
-| `og-default` | hero | Open Graph fallback | 1.91:1 | 1200×630 | 1 |
+Master size follows from **display role**, not from the directory an asset
+happens to live in. Two assets in the same group can need different masters —
+`testlab-extrusion` spans the full content column while `testlab-film-sample`
+sits at card size, so they are not exported alike.
+
+| Slug | Group | Used on | Display role | Ratio | Master size | Priority |
+|---|---|---|---|---|---|---|
+| `plant-hero` | hero | homepage, above the fold | full-bleed | 16:9 | 2560×1440 | 1 |
+| `masterbatch` | products | `/prodotti/masterbatch/` | card | 4:3 | 1600×1200 | 1 |
+| `polimeri` | products | `/prodotti/polimeri/` | card | 4:3 | 1600×1200 | 1 |
+| `biopolimeri` | products | `/prodotti/biopolimeri/` | card | 4:3 | 1600×1200 | 1 |
+| `additivi` | products | `/prodotti/additivi/` | card | 4:3 | 1600×1200 | 1 |
+| `compound` | products | `/prodotti/compound/` | card | 4:3 | 1600×1200 | 1 |
+| `rigenerati` | products | `/prodotti/rigenerati/` | card | 4:3 | 1600×1200 | 1 |
+| `testlab-extrusion` | testlab | `/testlab/` header | full-width | 3:2 | 2400×1600 | 1 |
+| `testlab-film-sample` | testlab | `/testlab/` body | card | 3:2 | 1600×1067 | 2 |
+| `industry-packaging` | industries | `/settori/` | card | 4:3 | 1600×1200 | 2 |
+| `industry-injection` | industries | `/settori/` | card | 4:3 | 1600×1200 | 2 |
+| `industry-agriculture` | industries | `/settori/` | card | 4:3 | 1600×1200 | 2 |
+| `warehouse` | company | `/azienda/` | full-width | 3:2 | 2400×1600 | 2 |
+| `og-default` | hero | Open Graph fallback | social card | 1.91:1 | 1200×630 | 1 |
 
 ### Breakpoint variants
 
 Content column is capped at 1216 px (`--shell: min(76rem, …)`).
 
-- **Hero** — export at 2560, 1920, 1280, 768.
-- **Product, industry, company, testlab** — export at 1600, 1200, 800, 480.
-- **`og-default`** — single 1200×630 JPEG. Social scrapers are unreliable with
-  AVIF; ship JPEG only, and keep it under 300 KB or some crawlers skip it.
+Breakpoints follow the display role column above, not the group.
+
+- **full-bleed** (`plant-hero`) — export at 2560, 1920, 1280, 768.
+- **full-width** (`testlab-extrusion`, `warehouse`) — export at 2400, 1600,
+  1200, 800. The content column is 1216 px, so a full-width image needs 2432 px
+  to stay sharp on a 2× display; 1600 is visibly soft there.
+- **card** (all product and industry assets, `testlab-film-sample`) — export at
+  1600, 1200, 800, 480. These never exceed half the content column.
+- **social card** (`og-default`) — single 1200×630 JPEG. Social scrapers are
+  unreliable with AVIF; ship JPEG only, and keep it under 300 KB or some
+  crawlers skip it.
 
 The `width` / `height` passed to `ResponsiveImage` is the **JPEG fallback**,
 which is the largest export in the list above.
+
+### Current status of delivered assets
+
+The asset set presently in `public/media/` is a **draft**. It satisfies every
+technical rule in this document except one: `testlab-extrusion` and `warehouse`
+were exported at a 1600 master, before the full-width role was distinguished
+from the card role. Both need re-exporting at 2400 when the final assets are
+produced. No other delivered asset is affected.
 
 ---
 

@@ -7,9 +7,13 @@ export interface ImageSource
 }
 
 export interface ResponsiveImageProps
-  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "srcSet" | "width" | "height"> {
+  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "width" | "height"> {
   src: string;
   alt: string;
+  /**
+   * Intrinsic pixel dimensions of the fallback file, not the CSS display size.
+   * Required so the browser can reserve layout space before the image loads.
+   */
   width: number;
   height: number;
   sources?: readonly ImageSource[];

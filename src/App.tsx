@@ -6,33 +6,37 @@ import {
 } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import PageShell from "./pages/PageShell";
-import {
-  localisePath,
-  routeRegistry,
-  type RouteId,
-} from "./config/routes";
+import { localisePath, routeRegistry, type RouteId } from "./config/routes";
 import { locales } from "./config/locales";
+import { productRouteIds, type ProductRouteId } from "./content/products";
+import RouteFallback from "./components/RouteFallback";
 
 /**
- * Routes with a real implementation. Everything else published renders the
- * neutral shell until its content is approved.
+ * One lazy chunk per page. The six category pages share a single
+ * implementation and therefore a single chunk, parameterised by route id.
  */
-const implementedPages: Partial<
-  Record<RouteId, LazyExoticComponent<ComponentType>>
-> = {
-  home: lazy(() => import("./pages/Home")),
-  contatti: lazy(() => import("./pages/Contact")),
-};
-
+const ProductCategory = lazy(() => import("./pages/ProductCategory"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-function RouteFallback() {
-  return (
-    <div className="shell route-status" role="status" aria-live="polite">
-      Loading…
-    </div>
-  );
+const pages: Partial<Record<RouteId, LazyExoticComponent<ComponentType>>> = {
+  home: lazy(() => import("./pages/Home")),
+  prodotti: lazy(() => import("./pages/Products")),
+  testlab: lazy(() => import("./pages/TestLab")),
+  settori: lazy(() => import("./pages/Industries")),
+  azienda: lazy(() => import("./pages/Company")),
+  contatti: lazy(() => import("./pages/Contact")),
+  privacy: lazy(() => import("./pages/Privacy")),
+  cookie: lazy(() => import("./pages/Cookie")),
+};
+
+const productIds = new Set<string>(productRouteIds);
+
+function elementFor(routeId: RouteId) {
+  if (productIds.has(routeId)) {
+    return <ProductCategory routeId={routeId as ProductRouteId} />;
+  }
+  const Page = pages[routeId] ?? NotFound;
+  return <Page />;
 }
 
 export default function App() {
@@ -48,23 +52,15 @@ export default function App() {
                   : localisePath(locale, route.paths[locale]);
               const key = `${locale}:${route.id}`;
 
+              // An unpublished route is not reachable content: it renders the
+              // not-found page, so `referenze` cannot be linked into existence
+              // before named clients and written permissions exist.
               if (route.id === "not-found" || !route.published) {
                 return <Route key={key} path={path} element={<NotFound />} />;
               }
 
-              const Implemented = implementedPages[route.id];
               return (
-                <Route
-                  key={key}
-                  path={path}
-                  element={
-                    Implemented ? (
-                      <Implemented />
-                    ) : (
-                      <PageShell routeId={route.id} />
-                    )
-                  }
-                />
+                <Route key={key} path={path} element={elementFor(route.id)} />
               );
             }),
           )}

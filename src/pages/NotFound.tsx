@@ -2,40 +2,37 @@ import { Link } from "react-router-dom";
 import { routePath } from "../config/routes";
 import { useLocale } from "../lib/locale";
 import { useSeo } from "../lib/seo";
-
-const copy = {
-  it: {
-    title: "Pagina non trovata",
-    description: "La pagina richiesta non esiste.",
-    heading: "Pagina non trovata.",
-    action: "Torna alla home",
-  },
-  en: {
-    title: "Page not found",
-    description: "The requested page was not found.",
-    heading: "Page not found.",
-    action: "Return home",
-  },
-};
+import { notFound } from "../content/pages";
+import { ui } from "../content/ui";
 
 export default function NotFound() {
   const locale = useLocale();
-  const text = copy[locale];
 
   useSeo({
-    title: text.title,
-    description: text.description,
+    title: notFound.meta.title[locale],
+    description: notFound.meta.description[locale],
     noIndex: true,
   });
 
   return (
-    <section className="section page-intro">
-      <div className="shell narrow">
-        <p className="eyebrow">404</p>
-        <h1>{text.heading}</h1>
-        <Link className="button" to={routePath("home", locale)}>
-          {text.action}
-        </Link>
+    <section className="section">
+      <div className="shell">
+        <div className="section-head">
+          <span className="label">404</span>
+          <h1 className="display">{notFound.heading[locale]}</h1>
+          <p className="lede">{notFound.lede[locale]}</p>
+        </div>
+        <div className="hero-actions">
+          <Link className="button" to={routePath("home", locale)}>
+            {notFound.home[locale]}
+          </Link>
+          <Link
+            className="button button-quiet"
+            to={routePath("prodotti", locale)}
+          >
+            {ui.allProducts[locale]}
+          </Link>
+        </div>
       </div>
     </section>
   );

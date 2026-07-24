@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { siteConfig } from "../config/site";
+import { siteConfig, siteDescription } from "../config/site";
 import { publicEnvironment } from "../config/environment";
 import { defaultLocale, localeTag, locales } from "../config/locales";
 import { counterpartPath, useLocale } from "./locale";
@@ -113,7 +113,18 @@ export function useSeo({ title, description, image, noIndex = false }: SeoConfig
   }, [description, image, locale, noIndex, pathname, title]);
 }
 
+/**
+ * Organization data, restricted to the three facts that are approved: legal
+ * name, the one-line description of the business, and the site's own origin.
+ *
+ * Nothing else goes in here. `address`, `telephone`, `email`, `vatID` and
+ * `sameAs` are exactly the properties a rich result would want, and every one
+ * of them is unconfirmed — structured data is machine-readable, so an
+ * unverified claim here propagates further than the same claim in prose.
+ */
 export function useOrganizationJsonLd() {
+  const locale = useLocale();
+
   useEffect(() => {
     const id = "organization-jsonld";
     let element = document.getElementById(id) as HTMLScriptElement | null;
@@ -128,8 +139,8 @@ export function useOrganizationJsonLd() {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: siteConfig.legalName,
-      description: siteConfig.description,
+      description: siteDescription[locale],
       url: publicEnvironment.siteUrl,
     });
-  }, []);
+  }, [locale]);
 }

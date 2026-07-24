@@ -7,7 +7,8 @@ import "./styles.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    {/* The v7 future flags are gone: their behaviour is the default now. */}
+    <BrowserRouter>
       <ScrollManager />
       <App />
     </BrowserRouter>

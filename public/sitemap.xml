@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://example.com/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/about</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/work</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/work/example-one</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/work/example-two</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/contact</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/privacy</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>

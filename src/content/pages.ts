@@ -8,7 +8,6 @@ import {
 } from "./media";
 
 type Text = Record<Locale, string>;
-type Lines = Record<Locale, readonly string[]>;
 
 export interface PageMeta {
   title: Text;
@@ -428,4 +427,4 @@ export const notFound = {
   home: { it: "Torna alla home", en: "Return home" },
 } satisfies Record<string, unknown> & { meta: PageMeta };
 
-export type { Text, Lines };
+export type { Text };

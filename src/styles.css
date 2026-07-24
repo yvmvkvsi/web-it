@@ -206,14 +206,6 @@ h4 {
   text-transform: uppercase;
 }
 
-.mono {
-  font-family: var(--mono);
-}
-
-.accent {
-  color: var(--accent);
-}
-
 .marker-bio {
   color: var(--bio);
 }
@@ -249,6 +241,13 @@ h4 {
   margin-bottom: clamp(2rem, 4vw, 3.25rem);
 }
 
+/* The margin separates the head from content beneath it. When the head *is*
+   the section, that margin stacks on top of the next section's padding and
+   opens a dead band roughly 11rem deep. */
+.section-head:last-child {
+  margin-bottom: 0;
+}
+
 /* Asymmetric setting: annotations hang in a mono gutter beside the measure,
    the way a marginal note sits beside a paragraph in a lab notebook. */
 .annotated {
@@ -276,6 +275,12 @@ h4 {
   position: sticky;
   top: 0;
   z-index: 60;
+}
+
+/* The blur is scoped to this bar on purpose — see the note in Header.tsx.
+   `backdrop-filter` on the sticky header would trap the fixed mobile panel
+   inside the header's box. */
+.header-bar {
   border-bottom: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
@@ -288,7 +293,12 @@ h4 {
   gap: 1.5rem;
 }
 
+/* Sized as a target, not just as text: at its 17px cap height the wordmark
+   was a 22px tap area, under the 24px minimum in WCAG 2.2 SC 2.5.8. */
 .wordmark {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   color: var(--text);
   font-size: 1.0625rem;
   font-weight: 600;
@@ -361,23 +371,25 @@ h4 {
   text-transform: uppercase;
 }
 
-.locale-switch a,
-.locale-switch span {
+/* Direct children only: each control wraps a visually-hidden language name
+   and an abbreviation, and an unscoped selector would style those too. */
+.locale-switch > a,
+.locale-switch > span {
   padding: 0.25rem 0.5rem;
   text-decoration: none;
 }
 
-.locale-switch span {
+.locale-switch > span {
   background: var(--surface-raised);
   color: var(--text);
 }
 
-.locale-switch a {
+.locale-switch > a {
   color: var(--muted);
   transition: color var(--transition);
 }
 
-.locale-switch a:hover {
+.locale-switch > a:hover {
   color: var(--accent);
 }
 
@@ -727,8 +739,10 @@ h4 {
   content: "—";
 }
 
+/* `--line-strong` is a hairline colour and fails contrast as text, even though
+   this label is decorative. Visible text is held to 1.4.3 regardless. */
 .rail-form {
-  color: var(--line-strong);
+  color: var(--muted);
   font-family: var(--mono);
   font-size: 0.625rem;
   letter-spacing: 0.1em;
@@ -744,15 +758,6 @@ h4 {
 
 .page-media img {
   width: 100%;
-}
-
-.media-caption {
-  margin-top: 0.75rem;
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .split {
@@ -908,7 +913,10 @@ h4 {
   gap: 0.4rem;
 }
 
-.field > span {
+/* The label text and its "optional" marker live inside the `<label>`, so a
+   `.field > span` selector never reached them: the rule was inert and the two
+   words ran together. */
+.field label > span {
   display: flex;
   align-items: baseline;
   gap: 0.4rem;
@@ -991,11 +999,13 @@ h4 {
   align-items: start;
 }
 
+/* 24px square: the WCAG 2.2 SC 2.5.8 minimum. The adjacent label is also a
+   target, but the box is what a pointer aims at. */
 .field-consent input {
-  width: 1.1rem;
+  width: 1.5rem;
   min-height: 0;
-  height: 1.1rem;
-  margin-top: 0.28rem;
+  height: 1.5rem;
+  margin-top: 0.1rem;
   accent-color: var(--accent);
 }
 
@@ -1003,6 +1013,22 @@ h4 {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
+}
+
+/* The notice link sits inside a run of body text. Without an underline it is
+   indistinguishable from the sentence around it — colour alone would not be
+   enough either (WCAG 1.4.1), and here there was no colour difference at all. */
+.field-consent a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 0.2em;
+  transition: color var(--transition), text-decoration-color var(--transition);
+}
+
+.field-consent a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .honeypot {

@@ -44,9 +44,16 @@ export default function Industries() {
               <figure className="page-media">
                 <Media asset={industry.media} sizes={sizes.halfColumn} />
               </figure>
+              {/* The mono label carries an index, not prose: set in uppercase
+                  at 11px with wide tracking, a whole sentence there is
+                  unreadable. The summary is a deck and is set as one. */}
               <div className="stack">
-                <span className="label-plain">{industry.summary[locale]}</span>
+                <span className="label-plain">
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(industries.length).padStart(2, "0")}
+                </span>
                 <h2 className="title">{industry.name[locale]}</h2>
+                <p className="subtitle">{industry.summary[locale]}</p>
                 <p className="lede">{industry.body[locale]}</p>
               </div>
             </div>

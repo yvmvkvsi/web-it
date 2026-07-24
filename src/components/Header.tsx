@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { getNavigationRoutes, localisePath, routePath } from "../config/routes";
 import { localeName, locales } from "../config/locales";
 import { counterpartPath, useLocale } from "../lib/locale";
@@ -72,10 +72,19 @@ export default function Header() {
 
   return (
     <header className="site-header">
-      <div className="shell header-inner">
-        <NavLink className="wordmark" to={routePath("home", locale)}>
+      {/* The blur lives on this inner bar, not on `.site-header`. A
+          `backdrop-filter` establishes a containing block for fixed-position
+          descendants, so with it on the header the mobile panel resolved
+          `inset: 4.25rem 0 0` against the 68px header box and collapsed to
+          nothing — open in the DOM, invisible on screen. */}
+      <div className="header-bar">
+        <div className="shell header-inner">
+        {/* A plain link, not a NavLink: the wordmark is identity, not a
+            navigation item, and marking it `aria-current="page"` on the home
+            page would put a second current-page claim in the header. */}
+        <Link className="wordmark" to={routePath("home", locale)}>
           {siteConfig.name}
-        </NavLink>
+        </Link>
 
         <div className="header-nav">
           <nav className="primary-nav" aria-label={ui.primaryNavigation[locale]}>
@@ -89,10 +98,16 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="locale-switch" aria-label={ui.language[locale]}>
-            <span aria-current="true">{locale}</span>
+          {/* A `nav`, not a bare `div`: `aria-label` on a generic element
+              names nothing, so the switcher would be an unlabelled pair of
+              two-letter links. */}
+          <nav className="locale-switch" aria-label={ui.language[locale]}>
+            <span aria-current="true">
+              <span className="visually-hidden">{localeName[locale]}</span>
+              <span aria-hidden="true">{locale}</span>
+            </span>
             {other.map((candidate) => (
-              <NavLink
+              <Link
                 key={candidate}
                 to={counterpartPath(pathname, candidate)}
                 hrefLang={candidate}
@@ -100,9 +115,9 @@ export default function Header() {
               >
                 <span className="visually-hidden">{localeName[candidate]}</span>
                 <span aria-hidden="true">{candidate}</span>
-              </NavLink>
+              </Link>
             ))}
-          </div>
+          </nav>
 
           <button
             ref={toggleRef}
@@ -119,6 +134,7 @@ export default function Header() {
             </span>
             {menuOpen ? ui.closeMenu[locale] : ui.menu[locale]}
           </button>
+        </div>
         </div>
       </div>
 
@@ -144,11 +160,19 @@ export default function Header() {
           </nav>
 
           <div className="mobile-nav-locale">
-            <span className="label-plain">{ui.language[locale]}</span>
-            <div className="locale-switch">
-              <span aria-current="true">{locale}</span>
+            <span className="label-plain" id={`${menuId}-language`}>
+              {ui.language[locale]}
+            </span>
+            <nav
+              className="locale-switch"
+              aria-labelledby={`${menuId}-language`}
+            >
+              <span aria-current="true">
+                <span className="visually-hidden">{localeName[locale]}</span>
+                <span aria-hidden="true">{locale}</span>
+              </span>
               {other.map((candidate) => (
-                <NavLink
+                <Link
                   key={candidate}
                   to={counterpartPath(pathname, candidate)}
                   hrefLang={candidate}
@@ -158,9 +182,9 @@ export default function Header() {
                     {localeName[candidate]}
                   </span>
                   <span aria-hidden="true">{candidate}</span>
-                </NavLink>
+                </Link>
               ))}
-            </div>
+            </nav>
           </div>
         </div>
       </div>

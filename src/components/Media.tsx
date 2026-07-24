@@ -39,9 +39,7 @@ export default function Media({
       alt={asset.alt[locale]}
       width={asset.width}
       height={asset.height}
-      loading={priority ? "eager" : "lazy"}
-      fetchPriority={priority ? "high" : undefined}
-      decoding={priority ? "sync" : "async"}
+      priority={priority}
     />
   );
 }

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0F1215" />
     <meta name="color-scheme" content="dark" />
+    <!-- No icon is declared on purpose. A favicon is the logo at 32px, and the
+         official SVG has not been supplied (PENDING_DECISIONS P-001); drawing
+         one would be inventing a brand mark. This empty declaration stops the
+         browser requesting /favicon.ico and 404-ing on every page. Replace the
+         href with the real icon when P-001 closes. -->
+    <link rel="icon" href="data:," />
     <!-- Per-route metadata is written by src/lib/seo.ts on navigation. The
          values below are the pre-hydration defaults only. `noindex` is the
          default here too, so a crawler that reads the shell before the app

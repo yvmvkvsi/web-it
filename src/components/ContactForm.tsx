@@ -304,9 +304,12 @@ function Field({
 }: FieldProps) {
   return (
     <div className="field">
+      {/* The label text gets its own element rather than sitting as a bare
+          text node: an anonymous flex item does not take the container's
+          `gap`, so "Telefono" and "facoltativo" ran together. */}
       <label htmlFor={htmlFor}>
         <span>
-          {label}
+          <span>{label}</span>
           {optional ? <span className="field-optional">{optional}</span> : null}
         </span>
       </label>

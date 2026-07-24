@@ -2,8 +2,14 @@ import type { Locale } from "../config/locales";
 
 type Text = Record<Locale, string>;
 
-/** Interface strings. Labels label; they do not sell. */
-export const ui: Record<string, Text> = {
+/**
+ * Interface strings. Labels label; they do not sell.
+ *
+ * `as const satisfies` rather than a bare `Record<string, Text>` annotation:
+ * the annotation would widen the keys to `string`, so a typo like `ui.menuu`
+ * would typecheck and render `undefined` into the page.
+ */
+export const ui = {
   skipToContent: {
     it: "Vai al contenuto principale",
     en: "Skip to main content",
@@ -14,8 +20,7 @@ export const ui: Record<string, Text> = {
     en: "Footer navigation",
   },
   language: { it: "Lingua", en: "Language" },
-  openMenu: { it: "Apri il menu", en: "Open menu" },
-  closeMenu: { it: "Chiudi il menu", en: "Close menu" },
+  closeMenu: { it: "Chiudi", en: "Close" },
   menu: { it: "Menu", en: "Menu" },
   loading: { it: "Caricamento…", en: "Loading…" },
 
@@ -33,11 +38,7 @@ export const ui: Record<string, Text> = {
     it: "In attesa di conferma",
     en: "Awaiting confirmation",
   },
-  pendingIntro: {
-    it: "Questo contenuto non è ancora pubblicato: richiede un dato che l'azienda deve confermare.",
-    en: "This content is not published yet: it needs information the company has to confirm.",
-  },
-};
+} as const satisfies Record<string, Text>;
 
 /** Sample-request form. */
 export const formCopy = {
@@ -87,11 +88,6 @@ export const formCopy = {
     it: "È necessario prendere visione dell'informativa.",
     en: "You must acknowledge the notice.",
   },
-  errorSummary: {
-    it: "Controlla i campi segnalati.",
-    en: "Check the highlighted fields.",
-  },
-
   /**
    * The form has no delivery destination: the mailbox is unresolved (P-003)
    * and no endpoint is configured. Saying "sent" would be a lie, so the form

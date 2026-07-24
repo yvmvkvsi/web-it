@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   getNavigationRoutes,
   getRoute,
@@ -20,9 +20,9 @@ export default function Footer() {
       <div className="shell">
         <div className="footer-grid">
           <div className="footer-brand">
-            <NavLink className="wordmark" to={routePath("home", locale)}>
+            <Link className="wordmark" to={routePath("home", locale)}>
               {siteConfig.name}
-            </NavLink>
+            </Link>
             <p>{siteDescription[locale]}</p>
           </div>
 

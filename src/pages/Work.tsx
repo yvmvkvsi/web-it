@@ -6,15 +6,15 @@ import { useSeo } from "../lib/seo";
 
 export default function Work() {
   useSeo({
-    title: "Work — Production Web Starter",
-    description: "Example data-driven collection page.",
+    title: "Work",
+    description: "Data-driven collection.",
   });
 
   return (
     <section className="section page-intro">
       <div className="shell">
         <p className="eyebrow">Work</p>
-        <h1>Data-driven collection structure.</h1>
+        <h1>Work</h1>
         <div className="work-grid">
           {workItems.map((item) => (
             <article key={item.slug} className="work-card">

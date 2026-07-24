@@ -4,7 +4,7 @@ import { useSeo } from "../lib/seo";
 
 export default function NotFound() {
   useSeo({
-    title: "Page not found — Production Web Starter",
+    title: "Page not found",
     description: "The requested page was not found.",
     noIndex: true,
   });

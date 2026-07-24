@@ -3,8 +3,8 @@ import { useSeo } from "../lib/seo";
 
 export default function Contact() {
   useSeo({
-    title: "Contact — Production Web Starter",
-    description: "Example contact page with an explicit server integration boundary.",
+    title: "Contact",
+    description: "Contact the company.",
   });
 
   return (
@@ -12,11 +12,7 @@ export default function Contact() {
       <div className="shell two-column align-start">
         <div>
           <p className="eyebrow">Contact</p>
-          <h1>Connect a real lead endpoint before launch.</h1>
-          <p className="lede">
-            The browser form is only the client. Validation, rate limiting, spam
-            protection, storage and notifications belong on the server.
-          </p>
+          <h1>Contact</h1>
         </div>
         <ContactForm />
       </div>

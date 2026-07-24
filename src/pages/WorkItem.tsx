@@ -9,7 +9,7 @@ export default function WorkItem() {
   const item = getWorkItem(slug);
 
   useSeo({
-    title: item ? `${item.title} — Production Web Starter` : "Not found",
+    title: item ? item.title : "Not found",
     description: item?.summary ?? "The requested work item was not found.",
     noIndex: !item,
   });

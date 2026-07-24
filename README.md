@@ -16,12 +16,14 @@ copy, visual composition, assets, fonts, colours or motion choreography.
 ## Engineering foundation
 
 - strict TypeScript;
-- one typed route registry for navigation, lazy pages and sitemap generation;
-- direct SPA routes and reload support on Vercel;
+- one typed route registry driving navigation, routing, sitemap and prerender;
+- build-time prerendering: one static HTML file per published route;
+- per-route metadata resolved by a pure function of the pathname, shared by the
+  prerender and the browser so the two heads cannot diverge;
+- canonical URLs, reciprocal `hreflang`, Open Graph, Twitter and JSON-LD;
+- fail-closed indexability: `VITE_SITE_INDEXABLE` defaults to false;
 - Back/Forward scroll restoration keyed by browser history entry;
-- route-level metadata, canonical URLs, Open Graph, Twitter and JSON-LD helpers;
 - responsive image contract with required intrinsic dimensions;
-- data-driven dynamic routes;
 - accessible skip link, semantic navigation, focus treatment and form status;
 - explicit client/server boundary for lead forms;
 - typecheck, lint, unit tests, build and CI through `npm run verify`.
@@ -41,17 +43,66 @@ copy, visual composition, assets, fonts, colours or motion choreography.
 
 ```bash
 cp .env.example .env.local
-npm install
+npm ci
 npm run dev
 ```
 
-`VITE_SITE_URL` must be set per environment. `VITE_SITE_INDEXABLE` defaults to
-false and must stay false on every preview and temporary domain; only the
-confirmed production environment may set it to true. Before any release, run:
+Use `npm ci`, not `npm install`: an out-of-date `node_modules` fails the build
+on the self-hosted font imports.
+
+`VITE_SITE_URL` must be set per environment; it drives canonical URLs and the
+sitemap. `VITE_LEAD_ENDPOINT` stays empty until a real endpoint exists — while
+it is empty the sample-request form refuses to submit and says so.
+`VITE_SITE_INDEXABLE` defaults to false and must stay false on every preview
+and temporary domain; only the confirmed production environment may set it to
+true, and only with the confirmed production domain and release approval.
+
+Before any release, run:
 
 ```bash
-npm run verify
+npm run verify   # typecheck, lint, tests, production build
 ```
+
+## Build and preview
+
+`npm run build` runs four steps in order: sitemap generation, the client build,
+an SSR build of `src/entry-server.tsx`, and the prerender. The prerender writes
+one `index.html` per published route plus a `404.html`, then deletes the server
+bundle — it is a build artefact and is not deployed.
+
+```bash
+npm run build
+npm run preview   # serves dist/ the way a static host would
+```
+
+`vite preview` is configured to resolve each request against the build output
+and return `404.html` with a real 404 for anything unmatched, rather than
+falling back to the home page. That makes the hosting contract verifiable
+locally.
+
+## Hosting contract
+
+The build output is static. A host must:
+
+- resolve a directory to its `index.html` (`/azienda` → `/azienda/index.html`);
+- serve `404.html` with a 404 status for anything unmatched.
+
+It must **not** rewrite every path to `/index.html`. That answers unknown URLs
+with the home page at status 200, turning each one into a duplicate of the home
+page and discarding the prerendering. `vercel.json` configures the static
+behaviour and deliberately carries no SPA rewrite.
+
+## Localisation
+
+Italian is served from the site root and English under `/en`. The locale is
+derived from the pathname and from nothing else — there is no cookie, no
+storage and no redirect. `src/config/routes.ts` is the single registry of route
+strings per locale, and navigation, the language switcher, canonical URLs,
+`hreflang`, the sitemap and the prerender all read from it. Changing a route
+string there changes all of them together.
+
+Copy lives in `src/content/` as typed records keyed by locale, so a missing
+translation is a type error rather than a blank page.
 
 ## Form security boundary
 

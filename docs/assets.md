@@ -166,6 +166,24 @@ were exported at a 1600 master, before the full-width role was distinguished
 from the card role. Both need re-exporting at 2400 when the final assets are
 produced. No other delivered asset is affected.
 
+**How the implementation handles the gap.** `src/content/media.ts` declares the
+widths that actually exist on disk — 480, 800, 1200, 1600 — not the widths
+specified here. A `srcset` advertising a 2400 candidate that has not been
+exported would make the browser request a URL that 404s. The missing exports
+were not fabricated to close the gap on paper.
+
+At their current placements both images are used inside the 1216px content
+column rather than edge to edge, so a 1600 master is adequate at 1× and
+acceptable at 2× on the sizes they actually render at. Re-export at 2400 if
+either is ever moved to a genuinely full-bleed placement, and widen the
+`widths` array in the same change.
+
+`og-default` remains unproduced. It depends on the official logo (P-001), so
+`siteConfig.defaultSocialImage` is `undefined`, no `og:image` is emitted, and
+the Twitter card declares `summary` rather than claiming a large image that
+does not exist. The site also declares an explicit empty favicon for the same
+reason — see P-001.
+
 ---
 
 ## 4. Per-asset briefs

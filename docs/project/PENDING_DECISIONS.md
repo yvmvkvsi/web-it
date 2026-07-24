@@ -36,7 +36,8 @@ and operational contracts, needed before cutover and first deploy), P-008
 **Status:** blocked
 **Owner/approver:** business owner
 **Needed by:** before any public deploy
-**Blocks:** `og-default` asset, header typography, final accent colour
+**Blocks:** `og-default` asset, the site favicon, header typography, final
+accent colour
 
 ### Decision required
 
@@ -53,6 +54,11 @@ be checked for clash against the real brand colour.
 - The previous site serves a 153×45 raster logo; the origin returns 403 to
   direct requests, so it could not be sampled.
 - `docs/assets.md` marks `og-default` as intentionally not produced.
+- The header and footer render the company name as text. This is a typographic
+  treatment, not a reconstruction of the logo, and is labelled as such in code.
+- The site declares `<link rel="icon" href="data:,">`, an explicit "no icon".
+  A favicon is the logo at 32px; drawing one would be inventing a brand mark.
+  The empty declaration also stops a `/favicon.ico` 404 on every page load.
 
 ### Recommendation
 
@@ -125,9 +131,18 @@ received test submission.
 
 ### Known facts and constraints
 
-- `VITE_LEAD_ENDPOINT` is unimplemented in the starter.
 - The previous site publishes a telephone number but the mailbox behind it is
   unverified.
+- The form itself is built and waiting. With `VITE_LEAD_ENDPOINT` unset it
+  refuses to submit: the fields are disabled, the submit button reads
+  "Invio non disponibile", a notice explains that nothing would be delivered,
+  and no request is issued. It never reports success. Tests assert each of
+  those, so the fail-closed state cannot regress silently.
+- What is still missing is only the destination and the server behind it. That
+  server must validate independently, reject the honeypot field and rate-limit;
+  client-side validation is feedback, not a security boundary.
+- No address, telephone or mailbox appears anywhere on the contact page; a
+  `PendingNote` states plainly that they are unconfirmed.
 
 ### Recommendation
 
@@ -219,7 +234,7 @@ mark usage.
 **Status:** open
 **Owner/approver:** business owner
 **Needed by:** before first deploy
-**Blocks:** deployment, analytics activation, prerender tool choice
+**Blocks:** deployment, analytics activation
 
 ### Decision required
 
@@ -235,14 +250,25 @@ choice is cheap to make but should be made against the confirmed host.
 
 ### Known facts and constraints
 
-- `vercel.json` is present in the repository with SPA rewrites.
-- Plausible is the approved analytics choice, delegated by Egor.
-- Prerendering is approved; `vite-react-ssg` is the candidate but not fixed.
+- `vercel.json` is present in the repository. It now configures static hosting
+  (`cleanUrls`, no trailing slash) rather than an SPA rewrite, because every
+  published route is prerendered to its own file.
+- Plausible is the approved analytics choice, delegated by Egor. Nothing is
+  installed: no analytics script ships, and the cookie notice says so.
+- The prerender-tool question is closed by removal. Prerendering is implemented
+  with the project's own React and Vite setup and no added dependency, so no
+  tool needs choosing and nothing here blocks it. See SOURCE_OF_TRUTH
+  section 6. The rest of this decision is unaffected.
 
 ### Recommendation
 
 Register the domain, hosting and analytics under the business's own accounts and
 grant access to whoever maintains the site, rather than the reverse.
+
+Whichever host is chosen must resolve a directory to its `index.html` and serve
+`404.html` with a real 404 status for anything unmatched. A blanket SPA rewrite
+would answer every unknown URL with the home page at status 200 and undo the
+prerendering.
 
 ### Closure evidence
 

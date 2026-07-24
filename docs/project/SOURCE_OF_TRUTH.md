@@ -2,8 +2,9 @@
 
 **Project:** Damon S.r.l. website
 **Document status:** canonical
-**Last approved update:** 2026-07-24
-**Current stable version:** v0.1
+**Last approved update:** 2026-07-25
+**Current stable version:** v0.1 (foundation, merged to `main`)
+**Active version:** v1.0
 
 This file contains only approved current facts and decisions. If it conflicts
 with Pending, Handoff or older chat, this file wins unless the project owner has
@@ -41,15 +42,28 @@ load-bearing and must be preserved by anyone editing this document.
 ## 2. Current baseline
 
 - Stable branch: `main`
-- Stable commit: `e58a0716f361abd6b86dde2e3c24757c9f460731`
-- Active version branch: `sandbox/claude/foundation/project-definition`
+- Stable commit: `c487604328bd7854717c9e2a397429b48cba4506`
+- Active version branch: `version/v1.0`, created from `c487604`
+- Phase 1 working branch: `sandbox/claude/v1.0/governance`
+- Canonical local working path: `~/Developer/web-it`. The earlier
+  iCloud-synchronised copy under `~/Desktop/web-it` is abandoned and must not be
+  used.
 - Preview environment: temporary domain, not yet specified. See P-002.
 - Production environment: not provisioned.
 - Working tree status at last handoff: clean.
 
-PR #1 (`sandbox/opus/foundation/cleanup-and-plastics-assets`, head `8194631`)
-was reviewed and found safe to merge subject to two corrections to the asset
-specification. It is not yet merged.
+Merged pull requests:
+
+- **PR #1** — `sandbox/opus/foundation/cleanup-and-plastics-assets`, merged at
+  `edc3a21`. Delivered the plastics image assets, removed unrelated starter and
+  cross-project content, and corrected the asset specification.
+- **PR #2** — `sandbox/claude/foundation/project-definition`, merged at
+  `c487604`. Recorded the initial Damon project definition.
+
+`sandbox/claude/v1/localisation` is an open, unmerged branch carrying the
+bilingual route registry and localisation infrastructure. Its route strings are
+approved and recorded in section 4; the branch itself is not yet integrated and
+is not modified by this version's governance work.
 
 ## 3. Approved scope
 
@@ -73,8 +87,8 @@ specification. It is not yet merged.
 - Online shop, cart, payment, customer accounts. [approved]
 - CMS. [approved]
 - Published pricing. [approved]
-- Motion, transitions and scroll choreography — deferred pending a separate
-  decision. [approved]
+- Decorative and cinematic motion. Functional interface motion is permitted;
+  see section 5. [approved]
 
 ## 4. Users, routes and content
 
@@ -85,12 +99,39 @@ specification. It is not yet merged.
 - **Supported languages** — Italian at the site root, English under `/en/`.
   `hreflang` and a localised sitemap are required. [approved]
 - **Route registry** — `src/config/routes.ts` remains the single source for
-  navigation and sitemap generation. Product category routes are not yet defined
-  in it: the information architecture is approved in principle, the final route
-  strings are open. See P-006.
-- **`work` route** — retained. It will hold client case studies, not product
-  records. [approved] Its final path, language and publication status are open.
-  See P-006.
+  navigation and sitemap generation.
+- **Approved route contract** — the route strings below are approved as
+  implemented on `sandbox/claude/v1/localisation`. [approved 2026-07-25,
+  closes P-006] Italian is served from the site root without a prefix; the
+  English tree is served under the `/en` prefix. Paths carry no trailing slash,
+  so the English home page is `/en`.
+
+  | Route id | Italian | English |
+  |---|---|---|
+  | `home` | `/` | `/en` |
+  | `prodotti` | `/prodotti` | `/en/products` |
+  | `prodotti-masterbatch` | `/prodotti/masterbatch` | `/en/products/masterbatch` |
+  | `prodotti-polimeri` | `/prodotti/polimeri` | `/en/products/polymers` |
+  | `prodotti-biopolimeri` | `/prodotti/biopolimeri` | `/en/products/biopolymers` |
+  | `prodotti-additivi` | `/prodotti/additivi` | `/en/products/additives` |
+  | `prodotti-compound` | `/prodotti/compound` | `/en/products/compounds` |
+  | `prodotti-rigenerati` | `/prodotti/rigenerati` | `/en/products/recycled` |
+  | `testlab` | `/testlab` | `/en/testlab` |
+  | `settori` | `/settori` | `/en/industries` |
+  | `azienda` | `/azienda` | `/en/company` |
+  | `contatti` | `/contatti` | `/en/contact` |
+  | `referenze` | `/referenze` | `/en/references` |
+  | `privacy` | `/privacy` | `/en/privacy` |
+  | `cookie` | `/cookie` | `/en/cookie` |
+
+  Changing an approved route string after implementation requires a new owner
+  decision, because the strings feed navigation, canonical tags, `hreflang` and
+  the sitemap.
+
+- **References route** — the former `work` route is renamed `referenze` /
+  `references` and holds client case studies, not product records. It stays
+  `published: false` — absent from navigation and from the sitemap — until named
+  clients and written permission from each of them exist. [approved]
 - **Content ownership** — Claude drafts the Italian copy; the business owner
   reviews and corrects it. [approved] Factual claims are left as explicit gaps
   in drafts rather than invented.
@@ -125,8 +166,32 @@ specification. It is not yet merged.
   construction, interiors or real estate. [approved]
 - **Accessibility** — the starter's skip link, semantic navigation, focus
   handling and scroll restoration are locked and must not be removed.
-- **Motion policy** — none. No transitions, parallax or scroll effects until a
-  motion language is separately approved. [approved]
+- **Motion policy** — restrained functional interface motion is permitted.
+  [approved 2026-07-25] Motion must communicate hierarchy, continuity or
+  feedback; it is not decoration.
+
+  Permitted:
+
+  - slide and carousel transitions;
+  - menu opening and closing;
+  - accordion and disclosure transitions;
+  - hover, focus, press and selection feedback;
+  - form-state transitions;
+  - restrained content-state and page transitions.
+
+  Prohibited:
+
+  - parallax;
+  - scroll hijacking;
+  - cinematic scroll choreography;
+  - pinned storytelling;
+  - continuous decorative movement;
+  - distracting autoplay;
+  - excessive repeated reveals;
+  - motion copied from NP or any other project.
+
+  Every motion implementation must honour `prefers-reduced-motion`. A motion
+  that cannot be meaningfully reduced must not ship.
 
 ## 6. Technical architecture
 
@@ -145,6 +210,19 @@ specification. It is not yet merged.
 - **Migration policy** — the temporary domain must serve `noindex`. Indexing a
   staging copy would create a duplicate competing with the production site.
   [approved]
+- **Indexability contract** — `VITE_SITE_INDEXABLE` is the fail-safe
+  implementation of that policy. [approved 2026-07-25]
+
+  - The flag defaults to `false`. Any value other than `true` is treated as
+    `false`, so a missing or malformed value fails closed.
+  - Preview, staging and every temporary deployment must emit `noindex` and a
+    `robots.txt` that disallows crawling.
+  - Only the confirmed Production environment may set it to `true`.
+  - Setting it to `true` requires the confirmed production domain (P-002) and
+    an explicit release approval.
+
+  Recording this contract is not approval to deploy or to index the current
+  site.
 
 ## 7. Security, privacy and operations
 
@@ -189,20 +267,26 @@ A version is accepted only when:
 
 ## 10. Active version
 
-- **Version** — v0.1, foundation.
-- **Objective** — record the approved project definition; establish localisation
-  and prerendering before any page implementation.
-- **Baseline commit** — `e58a071`.
-- **Acceptance criteria** — governance documents reflect only approved
-  decisions; open decisions are recorded in `PENDING_DECISIONS.md` with an owner
-  and a closure condition.
-- **Explicit non-goals** — no page implementation, no copy, no asset wiring and
-  no route changes in this version.
+- **Version** — v1.0, on `version/v1.0`.
+- **Objective** — bring the site to a releasable bilingual catalogue: integrate
+  the approved localisation infrastructure, establish prerendering, then
+  implement pages and copy against the approved route contract.
+- **Baseline commit** — `c487604`.
+- **Acceptance criteria** — section 9 release acceptance, plus governance
+  documents reflecting only approved decisions and every open decision recorded
+  in `PENDING_DECISIONS.md` with an owner and a closure condition.
+- **Explicit non-goals for the current phase** — no page implementation, no
+  copy, no asset wiring, no route or localisation code changes, no prerendering
+  work and no deployment while governance alignment is in review.
+- **Development rule** — no direct development on `main` or on `version/v1.0`.
+  All work lands through a `sandbox/<model>/v1.0/<task>` branch and a reviewed
+  pull request into `version/v1.0`.
 
 ## 11. Next approved action
 
-Merge PR #1 once the two asset-specification corrections are pushed, then open
-`sandbox/claude/v1/i18n-and-prerender`.
+Review and merge the Phase 1 governance pull request into `version/v1.0`. No
+localisation integration, design work, prerendering, asset wiring or deployment
+is approved until that merge is complete and a further owner decision is issued.
 
 ## Appendix — company facts pending confirmation
 

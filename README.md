@@ -1,10 +1,19 @@
-# Production Web Starter
+# Damon S.r.l. website
 
-A neutral React + TypeScript + Vite starter extracted from proven engineering
-patterns in a production website, without carrying over its brand, copy, visual
-composition, assets, fonts, colours or animation choreography.
+The bilingual catalogue site for Damon S.r.l., a B2B distributor of raw
+materials to plastics converters in Southern Italy. Italian is served from the
+site root, English under `/en/`. The site exists to be found in organic search
+and to generate sample requests.
 
-## Included
+Approved scope, routes, design constraints and release criteria live in
+[Source of Truth](./docs/project/SOURCE_OF_TRUTH.md). It is canonical: if this
+README ever conflicts with it, that file wins.
+
+The codebase began as a neutral React + TypeScript + Vite starter extracted from
+proven engineering patterns, carrying over none of the source project's brand,
+copy, visual composition, assets, fonts, colours or motion choreography.
+
+## Engineering foundation
 
 - strict TypeScript;
 - one typed route registry for navigation, lazy pages and sitemap generation;
@@ -19,11 +28,13 @@ composition, assets, fonts, colours or animation choreography.
 
 ## Deliberately not included
 
-- a brand identity or design system;
-- custom fonts, branded colours, proprietary assets or page composition;
-- motion, parallax, cinematic scenes or scroll choreography;
+- an online shop, cart, payment or customer accounts;
+- a CMS;
+- published pricing;
+- decorative or cinematic motion — parallax, scroll hijacking, pinned
+  storytelling and continuous movement are prohibited. Restrained functional
+  interface motion is approved and specified in Source of Truth section 5;
 - a fake backend, database or email integration;
-- analytics, consent or legal text selected without project requirements;
 - secrets committed to the repository.
 
 ## Start
@@ -34,9 +45,9 @@ npm install
 npm run dev
 ```
 
-Before launch, replace all placeholder metadata and content, set
-`VITE_SITE_URL`, connect a secure lead endpoint, review legal requirements, and
-run:
+`VITE_SITE_URL` must be set per environment. `VITE_SITE_INDEXABLE` defaults to
+false and must stay false on every preview and temporary domain; only the
+confirmed production environment may set it to true. Before any release, run:
 
 ```bash
 npm run verify
@@ -50,18 +61,20 @@ fields, reject the honeypot, rate-limit by appropriate signals, prevent replay
 and duplicates, store leads durably, keep secrets server-side, and send
 notifications without making email the only copy.
 
-## Template use
+## Project governance
 
-Read [TEMPLATE_GUIDE.md](./TEMPLATE_GUIDE.md) before adapting the starter.
-
-The repository also includes a project governance system designed for work
-shared between people and AI models:
+Work is shared between people and AI models and is governed by:
 
 - [project workflow](./docs/PROJECT_WORKFLOW.md);
 - [Source of Truth](./docs/project/SOURCE_OF_TRUTH.md);
 - [Pending Decisions](./docs/project/PENDING_DECISIONS.md);
 - [current handoff](./docs/project/HANDOFF.md);
-- [project changelog](./docs/project/CHANGELOG.md).
+- [project changelog](./docs/project/CHANGELOG.md);
+- [image asset specification](./docs/assets.md).
 
-Every new product version uses a new `version/*` branch. Models implement work
-only in isolated `sandbox/*` branches and merge through reviewed pull requests.
+Every product version uses a new `version/*` branch. Models implement work only
+in isolated `sandbox/*` branches and merge through reviewed pull requests. No
+development happens directly on `main` or on an active `version/*` branch.
+
+The starter's own adaptation notes are retained in
+[TEMPLATE_GUIDE.md](./TEMPLATE_GUIDE.md).

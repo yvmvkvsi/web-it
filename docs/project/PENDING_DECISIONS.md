@@ -1,7 +1,7 @@
 # Pending Decisions
 
 **Project:** Damon S.r.l. website
-**Last reviewed:** 2026-07-24
+**Last reviewed:** 2026-07-25
 **Status:** active decision queue
 
 This file contains only unresolved material decisions. It is not a backlog,
@@ -11,12 +11,21 @@ change.
 
 Recommendations recorded here are recommendations. None of them is approved.
 
+Identifiers are never reused. P-006 (route strings and case-study section) was
+resolved on 2026-07-25; the approved route contract lives in
+`SOURCE_OF_TRUTH.md` section 4.
+
 ## Decision priority
 
 1. Release blockers
 2. Architecture and data contracts
 3. Product and design choices
 4. Operational and launch choices
+
+Open decisions in current priority order: P-001, P-003, P-004, P-005 (release
+blockers, all awaiting owner-supplied evidence), P-002 and P-007 (architecture
+and operational contracts, needed before cutover and first deploy), P-008
+(scope framing).
 
 ## Open decisions
 
@@ -202,55 +211,6 @@ MATER-BI® is distributed directly, indirectly, or no longer at all.
 
 Owner confirmation of current territory and a written statement of permitted
 mark usage.
-
----
-
-## P-006. Route strings and case-study section
-
-**Status:** open
-**Owner/approver:** Egor
-**Needed by:** before `sandbox/claude/v1/i18n-and-prerender`
-**Blocks:** route registry, sitemap, i18n implementation
-
-### Decision required
-
-What are the final Italian route strings, and what happens to the `work` route
-in the meantime?
-
-### Why it matters
-
-Italian sits at the site root, so the canonical URLs are Italian-facing. `/work`
-is an English word on an Italian-language site competing for Italian queries.
-Route strings feed navigation, sitemap and canonical tags, so changing them
-after implementation is expensive.
-
-### Known facts and constraints
-
-- The `work` route is retained and will hold client case studies. [approved]
-- `workItems` is currently an empty array; no case-study material exists.
-- Publishing client case studies requires named clients and written permission
-  from each.
-- The route registry supports a `published` flag that keeps a route out of both
-  navigation and the sitemap.
-
-### Options
-
-1. **Rename to `referenze` or `casi-studio`, set `published: false`** — the
-   structure exists, nothing empty is exposed, the URL is Italian from the
-   start.
-2. **Keep `/work` published** — an English path on the Italian tree, currently
-   pointing at an empty collection.
-3. **Remove entirely and reintroduce later** — cleanest registry, but the work
-   is repeated when case studies materialise.
-
-### Recommendation
-
-Option 1. It preserves Egor's decision to keep the section while avoiding both
-the language mismatch and an indexable empty page.
-
-### Closure evidence
-
-Egor's choice, plus the agreed Italian route strings for all product categories.
 
 ---
 

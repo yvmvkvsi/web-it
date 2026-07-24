@@ -1,20 +1,26 @@
+import { useLocale } from "../lib/locale";
+import { contact } from "../content/pages";
 import ContactForm from "../components/ContactForm";
-import { useSeo } from "../lib/seo";
+import PendingNote from "../components/PendingNote";
 
 export default function Contact() {
-  useSeo({
-    title: "Contact",
-    description: "Contact the company.",
-  });
+  const locale = useLocale();
 
   return (
-    <section className="section page-intro">
-      <div className="shell two-column align-start">
-        <div>
-          <p className="eyebrow">Contact</p>
-          <h1>Contact</h1>
+    <section className="section-tight">
+      <div className="shell">
+        <div className="section-head">
+          <span className="label">{contact.eyebrow[locale]}</span>
+          <h1 className="display">{contact.heading[locale]}</h1>
+          <p className="lede">{contact.lede[locale]}</p>
         </div>
-        <ContactForm />
+
+        <div className="contact-layout">
+          <PendingNote title={contact.detailsHeading[locale]}>
+            {contact.pending[locale]}
+          </PendingNote>
+          <ContactForm />
+        </div>
       </div>
     </section>
   );

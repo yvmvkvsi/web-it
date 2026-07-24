@@ -1,15 +1,19 @@
 import { Outlet } from "react-router-dom";
-import { useOrganizationJsonLd } from "../lib/seo";
+import { useSeo } from "../lib/seo";
+import { useLocale } from "../lib/locale";
+import { ui } from "../content/ui";
 import Footer from "./Footer";
 import Header from "./Header";
 
 export default function Layout() {
-  useOrganizationJsonLd();
+  const locale = useLocale();
+  // One call for the whole app: the head is a function of the pathname.
+  useSeo();
 
   return (
     <>
       <a className="skip-link" href="#main">
-        Skip to main content
+        {ui.skipToContent[locale]}
       </a>
       <Header />
       <main id="main" tabIndex={-1}>

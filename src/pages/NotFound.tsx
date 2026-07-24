@@ -1,22 +1,31 @@
 import { Link } from "react-router-dom";
-import { getRoute } from "../config/routes";
-import { useSeo } from "../lib/seo";
+import { routePath } from "../config/routes";
+import { useLocale } from "../lib/locale";
+import { notFound } from "../content/pages";
+import { ui } from "../content/ui";
 
 export default function NotFound() {
-  useSeo({
-    title: "Page not found",
-    description: "The requested page was not found.",
-    noIndex: true,
-  });
+  const locale = useLocale();
 
   return (
-    <section className="section page-intro">
-      <div className="shell narrow">
-        <p className="eyebrow">404</p>
-        <h1>Page not found.</h1>
-        <Link className="button" to={getRoute("home").path}>
-          Return home
-        </Link>
+    <section className="section">
+      <div className="shell">
+        <div className="section-head">
+          <span className="label">404</span>
+          <h1 className="display">{notFound.heading[locale]}</h1>
+          <p className="lede">{notFound.lede[locale]}</p>
+        </div>
+        <div className="hero-actions">
+          <Link className="button" to={routePath("home", locale)}>
+            {notFound.home[locale]}
+          </Link>
+          <Link
+            className="button button-quiet"
+            to={routePath("prodotti", locale)}
+          >
+            {ui.allProducts[locale]}
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -43,14 +43,13 @@ load-bearing and must be preserved by anyone editing this document.
 
 - Stable branch: `main`
 - Stable commit: `c487604328bd7854717c9e2a397429b48cba4506`
-- Active version branch: `version/v1.0`, created from `c487604`
-- Phase 1 working branch: `sandbox/claude/v1.0/governance`
-- Canonical local working path: `~/Developer/web-it`. The earlier
-  iCloud-synchronised copy under `~/Desktop/web-it` is abandoned and must not be
-  used.
+- Active version branch: `version/v1.0`, at `cc850f4` (merge of PR #3)
+- Implementation branch: `sandbox/claude/v1.0/complete-site`
+- Local working path: not fixed. The repository is the only authority; the
+  project has been worked on from more than one machine and any path recorded
+  here goes stale. Clone fresh and run `npm ci`.
 - Preview environment: temporary domain, not yet specified. See P-002.
 - Production environment: not provisioned.
-- Working tree status at last handoff: clean.
 
 Merged pull requests:
 
@@ -59,11 +58,12 @@ Merged pull requests:
   cross-project content, and corrected the asset specification.
 - **PR #2** — `sandbox/claude/foundation/project-definition`, merged at
   `c487604`. Recorded the initial Damon project definition.
+- **PR #3** — `sandbox/claude/v1.0/governance`, merged at `cc850f4`. Aligned the
+  governance documents and project metadata for v1.0.
 
-`sandbox/claude/v1/localisation` is an open, unmerged branch carrying the
-bilingual route registry and localisation infrastructure. Its route strings are
-approved and recorded in section 4; the branch itself is not yet integrated and
-is not modified by this version's governance work.
+`sandbox/claude/v1/localisation` has been integrated into the implementation
+branch. Its bilingual route registry and localisation infrastructure are in
+place and its route contract is preserved exactly as recorded in section 4.
 
 ## 3. Approved scope
 
@@ -198,7 +198,26 @@ is not modified by this version's governance work.
 - **Frontend** — React 18, TypeScript strict, Vite, Tailwind, react-router.
 - **Rendering** — prerendering is required. The site must ship static HTML per
   route; a client-only render works against the stated business outcome.
-  [approved] The specific tool is not yet fixed. See P-007.
+  [approved]
+
+  **Implemented.** `scripts/prerender.ts` renders every published route to its
+  own `index.html` at build time, using the project's existing React and Vite
+  setup and no additional dependency. `npm run build` runs the client build,
+  then an SSR build of `src/entry-server.tsx`, then the prerender step; the
+  server bundle is deleted afterwards and is not deployed. The client bundle
+  hydrates the delivered markup.
+
+  Per-route metadata is resolved by `src/lib/pageMeta.ts`, a pure function of
+  the pathname, and serialised by `src/lib/seo.ts`. The prerender and the
+  browser build their `<head>` from that one source, so the static head and the
+  hydrated head cannot drift.
+
+  Output: 28 route files (14 routes × 2 locales) plus `404.html`. Unpublished
+  routes get no file, so `referenze` does not exist as static HTML.
+
+  This resolves the prerender-tool question that was raised under P-007 by
+  removing it: no tool was adopted, so no tool needs choosing. The rest of
+  P-007 — hosting, account ownership and cost — remains open.
 - **Backend** — none beyond a form endpoint. The starter ships
   `VITE_LEAD_ENDPOINT` unimplemented; a minimal endpoint must be written.
 - **Data store** — none.
@@ -207,6 +226,14 @@ is not modified by this version's governance work.
   Egor delegated the choice; the subscription is an owner cost, see P-007.]
 - **Hosting and environments** — Vercel configuration is present in the
   repository. Account ownership is unsettled. See P-007.
+
+  `vercel.json` no longer carries an SPA rewrite. With every published route
+  prerendered to a real file, the rewrite was actively harmful: it answered
+  unknown URLs with the home page's HTML at status 200, so every mistyped path
+  became a soft duplicate of the home page. The filesystem now serves each
+  route and anything unmatched falls through to `404.html` with a real 404.
+  `vite preview` is configured to behave the same way, so the contract is
+  verifiable locally rather than assumed of the host.
 - **Migration policy** — the temporary domain must serve `noindex`. Indexing a
   staging copy would create a duplicate competing with the production site.
   [approved]
@@ -271,22 +298,27 @@ A version is accepted only when:
 - **Objective** — bring the site to a releasable bilingual catalogue: integrate
   the approved localisation infrastructure, establish prerendering, then
   implement pages and copy against the approved route contract.
-- **Baseline commit** — `c487604`.
+- **Baseline commit** — `cc850f4`.
 - **Acceptance criteria** — section 9 release acceptance, plus governance
   documents reflecting only approved decisions and every open decision recorded
   in `PENDING_DECISIONS.md` with an owner and a closure condition.
-- **Explicit non-goals for the current phase** — no page implementation, no
-  copy, no asset wiring, no route or localisation code changes, no prerendering
-  work and no deployment while governance alignment is in review.
+- **Implementation status** — the site is implemented. Every published route
+  renders in both locales, all fourteen approved assets are wired, prerendering
+  produces static HTML per route, and the sample-request form is present in a
+  truthful unavailable state. What remains before release is not implementation
+  work: it is the owner-supplied information listed in `PENDING_DECISIONS.md`.
 - **Development rule** — no direct development on `main` or on `version/v1.0`.
   All work lands through a `sandbox/<model>/v1.0/<task>` branch and a reviewed
   pull request into `version/v1.0`.
 
 ## 11. Next approved action
 
-Review and merge the Phase 1 governance pull request into `version/v1.0`. No
-localisation integration, design work, prerendering, asset wiring or deployment
-is approved until that merge is complete and a further owner decision is issued.
+Review the implementation pull request
+(`sandbox/claude/v1.0/complete-site` → `version/v1.0`).
+
+Nothing beyond that review is approved. The site is not releasable: section 9
+acceptance cannot be met while P-001 to P-005 and P-007 are open. It must not be
+deployed or indexed, and `VITE_SITE_INDEXABLE` stays false.
 
 ## Appendix — company facts pending confirmation
 

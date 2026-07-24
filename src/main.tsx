@@ -1,15 +1,27 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import ScrollManager from "./components/ScrollManager";
 import "./styles.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const container = document.getElementById("root")!;
+
+const tree = (
   <React.StrictMode>
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    {/* The v7 future flags are gone: their behaviour is the default now. */}
+    <BrowserRouter>
       <ScrollManager />
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+
+// A production build ships prerendered markup for every published route, so
+// the usual path is hydration. `vite dev` serves the bare shell, and so does
+// any URL the prerender did not cover; both fall back to a client render.
+if (container.hasChildNodes()) {
+  hydrateRoot(container, tree);
+} else {
+  createRoot(container).render(tree);
+}

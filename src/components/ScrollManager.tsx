@@ -3,7 +3,7 @@ import { useLocation, useNavigationType } from "react-router-dom";
 import { onScrollFrame } from "../lib/scrollFrame";
 
 const positions = new Map<string, number>();
-const storageKey = "starter:scroll-positions";
+const storageKey = "damon:scroll-positions";
 const maxEntries = 50;
 
 try {

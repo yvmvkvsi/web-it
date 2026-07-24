@@ -22,4 +22,18 @@ describe("public environment", () => {
       }).leadEndpoint,
     ).toBe("https://api.example.com/leads");
   });
+
+  it("keeps a deployment out of search results unless explicitly opted in", () => {
+    expect(parsePublicEnvironment({}).indexable).toBe(false);
+    expect(
+      parsePublicEnvironment({ VITE_SITE_INDEXABLE: "false" }).indexable,
+    ).toBe(false);
+    expect(
+      parsePublicEnvironment({ VITE_SITE_INDEXABLE: "yes" }).indexable,
+    ).toBe(false);
+    expect(
+      parsePublicEnvironment({ VITE_SITE_INDEXABLE: " TRUE " }).indexable,
+    ).toBe(true);
+  });
+
 });

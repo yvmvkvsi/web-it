@@ -1,8 +1,7 @@
 export const siteConfig = {
-  name: "Production Web Starter",
-  legalName: "Replace with legal company name",
-  description:
-    "A neutral production website starter. Replace this description before launch.",
-  locale: "en",
+  name: "Damon S.r.l.",
+  legalName: "Damon S.r.l.",
+  description: "Plastics and polymer materials.",
+  locale: "it",
   defaultSocialImage: undefined as string | undefined,
 } as const;

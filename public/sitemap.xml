@@ -13,14 +13,6 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://example.com/work/example-one</loc>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
-    <loc>https://example.com/work/example-two</loc>
-    <changefreq>monthly</changefreq>
-  </url>
-  <url>
     <loc>https://example.com/contact</loc>
     <changefreq>monthly</changefreq>
   </url>

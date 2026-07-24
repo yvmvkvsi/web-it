@@ -1,23 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://example.com/</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en" />
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://example.com/about</loc>
+    <loc>https://example.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en" />
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://example.com/work</loc>
+    <loc>https://example.com/prodotti</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products" />
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://example.com/contact</loc>
+    <loc>https://example.com/en/products</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/masterbatch</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/masterbatch" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/masterbatch" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/masterbatch</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/masterbatch" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/masterbatch" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/polimeri</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/polimeri" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/polymers" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/polymers</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/polimeri" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/polymers" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/biopolimeri</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/biopolimeri" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/biopolymers" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/biopolymers</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/biopolimeri" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/biopolymers" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/additivi</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/additivi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/additives" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/additives</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/additivi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/additives" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/compound</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/compound" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/compounds" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/compounds</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/compound" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/compounds" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/prodotti/rigenerati</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/rigenerati" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/recycled" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/products/recycled</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/prodotti/rigenerati" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/products/recycled" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/testlab</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/testlab" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/testlab" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/testlab</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/testlab" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/testlab" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/settori</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/settori" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/industries" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/industries</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/settori" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/industries" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/azienda</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/azienda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/company" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/company</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/azienda" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/company" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/contatti</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/contatti" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/contact" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/contatti" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/contact" />
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://example.com/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/privacy" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/privacy" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/cookie</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/cookie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/cookie" />
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://example.com/en/cookie</loc>
+    <xhtml:link rel="alternate" hreflang="it-IT" href="https://example.com/cookie" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://example.com/en/cookie" />
     <changefreq>monthly</changefreq>
   </url>
 </urlset>

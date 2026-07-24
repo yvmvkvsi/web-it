@@ -1,11 +1,18 @@
 export interface PublicEnvironment {
   siteUrl: string;
   leadEndpoint?: string;
+  /**
+   * Whether search engines may index this deployment. Defaults to false so
+   * that preview and temporary domains cannot be indexed by omission; only an
+   * explicit "true" opts a deployment in.
+   */
+  indexable: boolean;
 }
 
 export interface PublicEnvironmentSource {
   VITE_SITE_URL?: string;
   VITE_LEAD_ENDPOINT?: string;
+  VITE_SITE_INDEXABLE?: string;
 }
 
 export const PLACEHOLDER_SITE_URL = "https://example.com";
@@ -56,10 +63,12 @@ export function parsePublicEnvironment(
       source.VITE_LEAD_ENDPOINT,
       "VITE_LEAD_ENDPOINT",
     ),
+    indexable: source.VITE_SITE_INDEXABLE?.trim().toLowerCase() === "true",
   };
 }
 
 export const publicEnvironment = parsePublicEnvironment({
   VITE_SITE_URL: import.meta.env?.VITE_SITE_URL,
   VITE_LEAD_ENDPOINT: import.meta.env?.VITE_LEAD_ENDPOINT,
+  VITE_SITE_INDEXABLE: import.meta.env?.VITE_SITE_INDEXABLE,
 });

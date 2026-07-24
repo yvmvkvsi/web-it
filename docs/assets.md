@@ -9,8 +9,9 @@ must satisfy, and the art direction all of them share. Anyone producing an
 asset — photographer, designer, or generative model — should be able to work
 from this file alone.
 
-Motion, video and scroll choreography are explicitly **out of scope** for this
-document. See "Deferred" at the end.
+Video and scroll choreography are explicitly **out of scope** for this document.
+Interface motion is governed by the motion policy in `SOURCE_OF_TRUTH.md`
+section 5, not here. See "Deferred" at the end.
 
 ---
 
@@ -298,7 +299,10 @@ Per asset, before it enters the repository:
 The following are deliberately not specified here and must not be added
 without an approved decision recorded in `SOURCE_OF_TRUTH.md`:
 
-- motion, transitions, parallax and scroll choreography;
+- parallax, scroll hijacking, cinematic scroll choreography, pinned
+  storytelling and continuous decorative movement — prohibited outright by the
+  motion policy in `SOURCE_OF_TRUTH.md` section 5. Restrained functional
+  interface motion is approved and is specified there, not in this document;
 - video assets and autoplaying backgrounds;
 - illustration or icon style beyond the flat category markers;
 - partner logo lockups, pending confirmation of current distribution
